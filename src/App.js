@@ -10,17 +10,25 @@ class App extends React.Component {
     super()
     this.state ={
       movieListSource: [],
-      searchQuery: ''
-
+      searchQuery: 'Godfather',
+      searchBar: false
     }
     
   }
 
   componentDidMount(){
-    fetch('http://localhost:3001/movies')
+    if (this.state.searchQuery === ''){
+     fetch('http://localhost:3001/movies')
     .then(response => response.json())
-    .then(data => this.setState({movieListSource: data}));
-
+    .then(data => this.setState({movieListSource: data}))
+    .then(() => alert("List Complete"))
+    } else {
+     console.log('Search Query : ', this.state.searchQuery);
+     fetch(`http://localhost:3001/search?query=${this.state.searchQuery}`)
+        .then(response => response.json())
+        .then(data => this.setState({movieListSource: data}))
+        .then(() => alert("List Complete"))
+    }
   }
 
 
