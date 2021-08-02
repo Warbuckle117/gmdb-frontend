@@ -1,25 +1,43 @@
-import logo from './logo.svg';
 import './App.css';
+import NavBar from './Components/NavBar';
+import MovieList from './Components/MovieList';
+import React from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+class App extends React.Component {
+  constructor(){
+    super()
+    this.state ={
+      movieListSource: [],
+      searchQuery: ''
+
+    }
+    
+  }
+
+  componentDidMount(){
+    fetch('http://localhost:3001/movies')
+    .then(response => response.json())
+    .then(data => this.setState({movieListSource: data}));
+
+  }
+
+
+  render() {
+    return (
+      <div className="App">
+        <div>
+          <NavBar />
+        </div>
+        <div>
+          <MovieList movieListSource={this.state.movieListSource} />
+        </div>
+        <a href="http://localhost:3000/">The page has rendered</a>
+      </div>
+    )
+  }
+  
 }
 
 export default App;
